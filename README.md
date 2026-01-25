@@ -75,7 +75,7 @@ npm run preview
 website/
 ├── public/
 │   ├── favicon.svg        # Site favicon (PM initials)
-│   └── profile.jpeg       # Profile photo
+│   └── profile.jpg       # Profile photo
 ├── src/
 │   ├── App.tsx            # Main application component
 │   ├── main.tsx           # React entry point
@@ -102,7 +102,7 @@ Edit `src/App.tsx` to update:
 
 ### Update Profile Photo
 
-Replace `public/profile.jpeg` with your own photo. Recommended:
+Replace `public/profile.jpg` with your own photo. Recommended:
 - Square aspect ratio
 - Minimum 400x400 pixels
 - JPEG or PNG format

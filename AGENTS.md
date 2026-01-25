@@ -18,7 +18,7 @@ A personal portfolio/digital business card website for **Preemal Monis**, a Full
 - **Position**: Floats right in the left panel, text wraps around it
 - **Style**: Rounded corners (`rounded-2xl`), not circular
 - **Size**: Scales from 112px to 160px based on viewport
-- **File**: `/public/profile.jpeg`
+- **File**: `/public/profile.jpg`
 
 ### Visual Elements
 - **Gradient background**: Subtle diagonal gradient (zinc-950 → zinc-900 → #1a1a1f)
@@ -68,7 +68,7 @@ A personal portfolio/digital business card website for **Preemal Monis**, a Full
 |------|---------|
 | `src/App.tsx` | Main component with all UI (single component design) |
 | `src/index.css` | Tailwind imports, gradient background, global styles |
-| `public/profile.jpeg` | Profile photo |
+| `public/profile.jpg` | Profile photo |
 | `public/favicon.svg` | Favicon with "PM" initials |
 | `index.html` | Entry point with SEO meta tags and Open Graph tags |
 

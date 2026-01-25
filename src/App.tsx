@@ -76,7 +76,7 @@ function App() {
           {/* Profile Image */}
           <div className="mb-8">
             <img
-              src="/profile.jpeg"
+              src="/profile.jpg"
               alt="Preemal Monis"
               className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border-4 border-white dark:border-zinc-800"
             />
