@@ -1,38 +1,179 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-zinc-950 text-zinc-100;
+  }
+
+  ::selection {
+    @apply bg-emerald-400/30 text-white;
+  }
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-emerald-300 via-cyan-300 to-emerald-200 bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: shimmer 6s linear infinite;
+  }
 
-html {
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .glass {
+    @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+@layer components {
+  .nav-dock {
+    isolation: isolate;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: rgb(24 24 27 / 0.88);
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.22), 0 2px 6px rgb(0 0 0 / 0.12), inset 0 1px 1px rgb(255 255 255 / 0.4), inset 0 -1px 1px rgb(255 255 255 / 0.15);
+    transition: background-color 300ms, box-shadow 300ms;
+  }
+
+  .nav-dock--scrolled {
+    background-color: rgb(9 9 11 / 0.92);
+    box-shadow: 0 12px 36px rgb(0 0 0 / 0.28), inset 0 1px 1px rgb(255 255 255 / 0.35), inset 0 -1px 1px rgb(255 255 255 / 0.12);
+  }
+
+  .liquid-glass {
+    --glass-x: 50%;
+    --glass-y: 0%;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.025) 45%, rgb(255 255 255 / 0.06));
+    box-shadow: inset 2px 0 4px rgb(255 255 255 / 0.12), inset -2px 0 4px rgb(255 255 255 / 0.1);
+  }
+
+  .liquid-glass::before,
+  .liquid-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .liquid-glass::before {
+    /* Filter only the backdrop, never the text or interactive controls. */
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+
+  .liquid-glass::after {
+    padding: 1px;
+    background:
+      radial-gradient(ellipse at var(--glass-x) var(--glass-y), rgb(255 255 255 / 0.25), transparent 65%),
+      linear-gradient(150deg, rgb(255 255 255 / 0.18), transparent 35%, rgb(110 231 183 / 0.08) 75%, rgb(255 255 255 / 0.12));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav-dock {
+      background-color: rgb(24 24 27 / 0.38);
+    }
+
+    .nav-dock--scrolled {
+      background-color: rgb(9 9 11 / 0.48);
+    }
+  }
+
+  @supports (backdrop-filter: url('#glass') blur(1px)) {
+    .liquid-glass::before {
+      backdrop-filter: blur(20px) var(--glass-filter) saturate(120%);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .nav-dock--scrolled {
+      background-color: rgb(18 18 21 / 0.72);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .nav-dock,
+    .nav-dock--scrolled {
+      background: #18181b;
+    }
+
+    .liquid-glass::before {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  .nav-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950;
+  }
+
+  .nav-link {
+    @apply relative flex min-h-11 items-center rounded-full px-4 text-[13px] font-medium text-zinc-200 transition-all duration-200 hover:bg-white/10 hover:text-white;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.65);
+  }
+
+  .nav-link[aria-current='location'] {
+    @apply bg-white/[0.15] text-white;
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.3), inset 0 -1px 1px rgb(255 255 255 / 0.08), 0 2px 6px rgb(0 0 0 / 0.12);
+  }
+
+  .nav-contact {
+    @apply inline-flex min-h-11 items-center gap-2 rounded-full bg-emerald-200/10 px-5 text-[13px] font-medium text-emerald-100 transition-all duration-300 hover:bg-emerald-200/20 hover:text-white;
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.22), inset 0 -1px 1px rgb(110 231 183 / 0.1);
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
+  }
+
+  .nav-contact svg {
+    transition: transform 200ms;
+  }
+
+  .nav-contact:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  .nav-contact[aria-current='location'] {
+    @apply ring-2 ring-emerald-300/40 ring-offset-2 ring-offset-zinc-950;
+  }
+
+  .nav-mobile-link[aria-current='location'] {
+    @apply bg-emerald-300/10 text-emerald-200;
+  }
 }
 
-#root {
-  min-height: 100vh;
+@keyframes terminal-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Selection styling */
-::selection {
-  background-color: #3b82f6;
-  color: white;
-}
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass::before {
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
 
-/* Prevent flash of wrong theme */
-html {
-  background-color: #fafafa;
-}
-
-html.dark {
-  background-color: #09090b;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
